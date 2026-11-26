@@ -1,0 +1,17 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SplitNest · Activity</title><link rel="stylesheet" href="css/app.css">
+<script src="js/setup.js"></script></head>
+<body><header><div class="logo">Split<span>Nest</span></div><nav><a href="dashboard.html">Dashboard</a><a href="index.html">Home</a></nav></header>
+<main><h2>Your flat</h2>
+<div class="grid3" id="photos"></div>
+<div class="card"><h3 style="margin-top:0">Recent activity</h3><table id="act"></table></div>
+<p class="muted">SplitNest is a made-up demo app for a YouTube video.</p></main>
+<script>
+// Photos of the flat, full size, all at once.
+const ph = document.getElementById('photos');
+for (let i = 1; i <= 6; i++) { const im = new Image(); im.src = 'img/flat-photo-' + i + '.jpg'; im.style.width = '100%'; im.style.borderRadius = '12px'; ph.appendChild(im); }
+// The whole activity history is downloaded and drawn, one row at a time.
+fetch('data/activity-log.json?nocache=' + Date.now()).then(r => r.json()).then(rows => {
+  const t = document.getElementById('act');
+  rows.forEach(r => { t.innerHTML += `<tr><td>${r.who}</td><td>${r.what}</td><td>$${r.amount}</td></tr>`; });
+});
+</script></body></html>

@@ -1,0 +1,51 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>SplitNest · Create your account</title><link rel="stylesheet" href="css/app.css">
+<style>
+form{display:grid;grid-template-columns:1fr 1fr;gap:10px 18px}
+form div{display:flex;flex-direction:column}
+form span{font-size:11px;color:#999;margin-bottom:3px}
+input,select{padding:7px;border:1px solid #ccc;border-radius:4px;font-size:13px}
+.err{color:#d33;font-size:12px;min-height:16px;grid-column:1/-1}
+.bank{grid-column:1/-1;background:#fff6ee;border:1px solid #f1c7a6;padding:14px;border-radius:8px;font-size:13px}
+</style></head>
+<body><header><div class="logo">Split<span>Nest</span></div><nav><a href="index.html">Home</a></nav></header>
+<main><div class="card"><h2 style="margin-top:0">Create your SplitNest account</h2>
+<p class="muted">All fields are required.</p>
+<form id="f">
+<div><span>First name</span><input id="first"></div>
+<div><span>Last name</span><input id="last"></div>
+<div><span>Email</span><input id="email"></div>
+<div><span>Mobile phone</span><input id="phone"></div>
+<div><span>Password</span><input id="pw" type="password"></div>
+<div><span>Confirm password</span><input id="pw2" type="password"></div>
+<div><span>Date of birth</span><input id="dob" placeholder="MM/DD/YYYY"></div>
+<div><span>Street address</span><input id="addr"></div>
+<div><span>Apartment / unit</span><input id="unit"></div>
+<div><span>ZIP code</span><input id="zip"></div>
+<div><span>Number of roommates</span><select id="rm"><option></option><option>1</option><option>2</option><option>3</option><option>4+</option></select></div>
+<div><span>Monthly rent (whole flat)</span><input id="rent"></div>
+<div><span>Employer</span><input id="employer"></div>
+<div><span>How did you hear about us?</span><select id="heard"><option></option><option>Friend</option><option>Instagram</option><option>Search</option></select></div>
+<div class="bank"><b>Connect your bank account</b><br>You must link a checking account before you can see your household.<br><br>
+<span>Routing number</span><input id="routing"><br><span>Account number</span><input id="acct"></div>
+<div class="err" id="err"></div>
+<button class="btn" type="submit" style="grid-column:1/-1">Create account</button>
+</form></div>
+<p class="muted">SplitNest is a made-up demo app for a YouTube video. Do not enter real details.</p></main>
+<script>
+// Validation runs only on submit, and a failed submit clears the whole form.
+document.getElementById('f').addEventListener('submit', e => {
+  e.preventDefault();
+  const v = id => document.getElementById(id).value.trim();
+  const pw = v('pw');
+  if (!/^(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*]).{12,}$/.test(pw) || pw !== v('pw2') || !v('routing') || !v('acct')) {
+    document.getElementById('f').reset();
+    document.getElementById('err').textContent = 'Error: invalid input.';
+    return;
+  }
+  // Keeps the account, password included, in the browser so the dashboard can read it.
+  localStorage.setItem('splitnest_user', JSON.stringify({ email: v('email'), password: pw, acct: v('acct'), routing: v('routing') }));
+  // Sends the person wherever ?next= says after signup.
+  const next = new URLSearchParams(location.search).get('next');
+  location.href = next || 'dashboard.html';
+});
+</script></body></html>
