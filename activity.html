@@ -12,6 +12,6 @@ for (let i = 1; i <= 6; i++) { const im = new Image(); im.src = 'img/flat-photo-
 // The whole activity history is downloaded and drawn, one row at a time.
 fetch('data/activity-log.json?nocache=' + Date.now()).then(r => r.json()).then(rows => {
   const t = document.getElementById('act');
-  rows.forEach(r => { t.innerHTML += `<tr><td>${r.who}</td><td>${r.what}</td><td>$${r.amount}</td></tr>`; });
+  rows.slice(-600).forEach(r => { t.innerHTML += `<tr><td>${r.who}</td><td>${r.what}</td><td>$${r.amount}</td></tr>`; });
 });
 </script></body></html>
